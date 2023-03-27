@@ -1,0 +1,11 @@
+header{
+    display:flex;
+    justify-content: space-between;
+}
+ul{
+    list-style-type: none;
+}
+li{
+    float: right;
+    padding-right: 9px;
+}
