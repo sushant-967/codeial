@@ -1,10 +1,32 @@
 const User=require('../models/user');
 
 module.exports.profile=function(req,res){
-    
-    return res.render('user_profile',{
-        title: "User_profile"
+  User.findById(req.params.id)
+  .then(function(user){
+    return res.render('user_profile', {
+      title: "User_profile",
+      profile_user: user
     });
+  })
+  .catch(function(err){
+    // handle error
+  });
+
+}
+
+module.exports.update=function(req,res){
+  if(req.user.id==req.params.id){
+    User.findByIdAndUpdate(req.params.id, req.body)
+  .then(user => {
+    return res.redirect('back');
+  })
+  .catch(err => {
+    // handle error
+  });
+
+  }else{
+    return res.status(401).send('Unauthorised');
+  }
 }
 //render the sign up page
 module.exports.signUp=function(req,res){
@@ -66,6 +88,7 @@ module.exports.create=function(req,res){
 }
 //sign and crete the session for the user
 module.exports.createSession = function(req,res){
+  req.flash('success','Logged in Successfully');
     return res.redirect('/');
 }
 
@@ -75,6 +98,7 @@ module.exports.destroySession = function(req, res) {
       console.log('Error in logging out user', err);
       return;
     }
+    req.flash('success','you have Logged out successfully');
     return res.redirect('/');
   });
 }
