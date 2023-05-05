@@ -7,7 +7,7 @@ module.exports.home = function(req, res) {
     .sort('-createdAt')
     .populate('user')
     .populate({
-        path: 'comments',
+        path : 'comments',
         populate: {
             path: 'user'
         }
